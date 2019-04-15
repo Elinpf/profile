@@ -66,6 +66,9 @@ alias diff='grc diff'
 
 # 打开bluetooth
 alias blue='service bluetooth restart'
+
+# 蓝牙连接console口失败参考
+# https://www.raspberrypi.org/forums/viewtopic.php?t=162911
 alias console_conn='service bluetooth restart && sleep 2 && rfcomm connect hci0 98:D3:31:B2:08:F0'
 
 # 刻意练习-英语
@@ -105,7 +108,7 @@ unset LC_ALL
 eval "$(pipenv --completion)"
 
 # Hutnis网址
-export HUTNIS=tuyiq.gicp.net
+export HUTNIS=hutnis.tk
 
 # 一定放在最后一行
 export PS1="\[\e]0;\u@\h: \w\a\]\${debian_chroot:+(\$debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]# "

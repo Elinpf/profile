@@ -110,10 +110,14 @@ antigen bundle textmate
 antigen bundle colorize
 antigen bundle copydir
 antigen bundle compleat
+
 antigen bundle history
+HIST_STAMPS="yyyy-mm-dd"
+
 antigen bundle pass
 # 这个是手动添加到plugins目录中的
 # 用于自动显示补全信息
+# 删除了源代码的 unsetopt automenu
 antigen bundle incr
 
 # Syntax highlighting bundle.
@@ -127,6 +131,9 @@ antigen bundle wting/autojump
 
 # Tell Antigen that you're done.
 antigen apply
+
+# 将自动补全设置为','
+bindkey ',' autosuggest-accept
 
 alias ls='ls --color=auto'
 alias ll="ls -l --color=auto"
@@ -165,6 +172,9 @@ alias rd='sh /etc/trash.sh delfile'
 alias cleartrash='sh /etc/trash.sh cleartrash'
 alias cleartrash_direct='sh /etc/trash.sh cleartrash_direct'
 alias msfconsole='msfdb init && msfconsole'
+
+# 替代top工具
+alias top='glances'
 
 # 关闭vim Ctrl+q 挂起功能
 stty -ixon

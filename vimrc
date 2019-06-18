@@ -100,6 +100,12 @@ runtime! debian.vim
   " Python 缩进
   Plugin 'Vimjas/vim-python-pep8-indent'
 
+  " set breakpoint
+  Plugin 'sillybun/setbreakpoints_python'
+
+  " Python 换行自动排版
+  Plugin 'Chiel92/vim-autoformat'
+
 
   " 你的所有插件需要在下面这行之前
   call vundle#end()            " 必须
@@ -457,6 +463,19 @@ let mapleader="'"
       vmap <Space>a<Space> :Tabularize / /l0<CR>
 "
 
+" autoformat Python 自动排版工具
+" vim-autoformat {
+  " 每次在normal环境下按F6便可以格式化代码
+  nnoremap <F6> :Autoformat<CR>
+  let g:autoformat_autoindent = 0
+  let g:autoformat_retab = 0
+  let g:autoformat_remove_trailing_spaces = 0
+" }
+
+" Python set breakpoint {
+  autocmd FileType python nnoremap <F12> :call ToggleBreakPoint()<Cr>
+" }
+
 " ************** 自定义vim插件 *******************
 " 有道翻译 {
     "vnoremap <silent> <C-T> :<C-u>Ydv<CR>
@@ -553,4 +572,40 @@ let mapleader="'"
    nmap <silent> w<cr>  :w<cr>
    nmap <silent> ww<cr>  :wa<cr>
 " }
+
+" 按r回车直接运行程序 {
+  """"""""""""""""""""""
+  "Quickly Run
+  """"""""""""""""""""""
+  "map <F9> :call CompileRunGcc()<CR>
+  nmap <silent> r<cr> :call CompileRunGcc()<CR>
+  func! CompileRunGcc()
+      exec "w"
+      if &filetype == 'c'
+          exec "!g++ % -o %<"
+          exec "!time ./%<"
+      elseif &filetype == 'cpp'
+          exec "!g++ % -o %<"
+          exec "!time ./%<"
+      elseif &filetype == 'java'
+          exec "!javac %"
+          exec "!time java %<"
+      elseif &filetype == 'sh'
+          :!time bash %
+      elseif &filetype == 'python'
+          exec "!python2.7 %"
+      elseif &filetype == 'ruby'
+          exec "!time ruby %"
+      elseif &filetype == 'html'
+          exec "!firefox % &"
+      elseif &filetype == 'go'
+  "        exec "!go build %<"
+          exec "!time go run %"
+      elseif &filetype == 'mkd'
+          exec "!~/.vim/markdown.pl % > %.html &"
+          exec "!firefox %.html &"
+      endif
+  endfunc
+" }
+
 

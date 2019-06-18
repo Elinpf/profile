@@ -172,6 +172,7 @@ alias rd='sh /etc/trash.sh delfile'
 alias cleartrash='sh /etc/trash.sh cleartrash'
 alias cleartrash_direct='sh /etc/trash.sh cleartrash_direct'
 alias msfconsole='msfdb init && msfconsole'
+alias py='python'
 
 # 替代top工具
 alias top='glances'

@@ -106,6 +106,9 @@ runtime! debian.vim
   " Python 换行自动排版
   Plugin 'Chiel92/vim-autoformat'
 
+  " 彩虹括号
+  Plugin 'kien/rainbow_parentheses.vim'
+
 
   " 你的所有插件需要在下面这行之前
   call vundle#end()            " 必须
@@ -476,6 +479,36 @@ let mapleader="'"
   autocmd FileType python nnoremap <F12> :call ToggleBreakPoint()<Cr>
 " }
 
+" 彩虹括号 {
+  let g:rbpt_colorpairs = [
+      \ ['brown',       'RoyalBlue3'],
+      \ ['Darkblue',    'SeaGreen3'],
+      \ ['darkgray',    'DarkOrchid3'],
+      \ ['darkgreen',   'firebrick3'],
+      \ ['darkcyan',    'RoyalBlue3'],
+      \ ['darkred',     'SeaGreen3'],
+      \ ['darkmagenta', 'DarkOrchid3'],
+      \ ['brown',       'firebrick3'],
+      \ ['gray',        'RoyalBlue3'],
+      \ ['darkmagenta', 'DarkOrchid3'],
+      \ ['Darkblue',    'firebrick3'],
+      \ ['darkgreen',   'RoyalBlue3'],
+      \ ['darkcyan',    'SeaGreen3'],
+      \ ['darkred',     'DarkOrchid3'],
+      \ ['red',         'firebrick3'],
+      \ ]
+
+  " 不加入这行, 防止黑色括号出现, 很难识别
+  " \ ['black',       'SeaGreen3'],
+
+  let g:rbpt_max = 16
+  let g:rbpt_loadcmd_toggle = 0
+  au VimEnter * RainbowParenthesesToggle
+  au Syntax * RainbowParenthesesLoadRound
+  au Syntax * RainbowParenthesesLoadSquare
+  au Syntax * RainbowParenthesesLoadBraces
+" }
+
 " ************** 自定义vim插件 *******************
 " 有道翻译 {
     "vnoremap <silent> <C-T> :<C-u>Ydv<CR>
@@ -495,7 +528,7 @@ let mapleader="'"
 " 百度翻译光标 {
     map <Leader>lwd :call SearchBaiduWord()<cr>
     function SearchBaiduWord()
-      execute "normal viwy\<Esc>"
+      execute "normal '<,'>y<Esc>"
       execute "\"+=\"\""
       execute "!lwd $(xsel)"
       " FIXME

@@ -54,7 +54,7 @@ runtime! debian.vim
 
   " 当切换到Normal模式后,输入法切换到英文
   Plugin 'lilydjwg/fcitx.vim'
-  
+
   " 抬头显示table或者空格
   Plugin 'Yggdroot/indentLine'
 
@@ -100,7 +100,7 @@ runtime! debian.vim
   " Python 缩进
   Plugin 'Vimjas/vim-python-pep8-indent'
 
-  " set breakpoint
+  " set breakpoint for python
   Plugin 'sillybun/setbreakpoints_python'
 
   " Python 换行自动排版
@@ -108,6 +108,15 @@ runtime! debian.vim
 
   " 彩虹括号
   Plugin 'kien/rainbow_parentheses.vim'
+
+  " 自动补全括号
+  Plugin 'Raimondi/delimitMate'
+
+  " EasyGrep
+  Plugin 'dkprice/vim-easygrep'
+
+  " Python 自动补全
+  Plugin 'davidhalter/jedi-vim'
 
 
   " 你的所有插件需要在下面这行之前
@@ -240,6 +249,22 @@ let mapleader="'"
 
     " minitest 自动补全 i_CTRL-X_CTRL-U
     set completefunc=syntaxcomplete#Complete
+
+    " 折叠设置
+    set foldmethod=indent
+    " 启动 Vim 时关闭折叠
+    set nofoldenable
+    set foldlevel=99
+    nnoremap <space><space> za
+    " zM 折叠所有
+    " zr 打开折叠
+    " zR 打开所有嵌套折叠
+    " zc 折叠
+    " zC 将整个函数折叠，并嵌套
+    " zo 打开
+    " zO 打开嵌套折叠
+    " za 打开关闭切换
+    highlight Folded ctermfg=37 ctermbg=0
 
 " }
 
@@ -509,11 +534,61 @@ let mapleader="'"
   au Syntax * RainbowParenthesesLoadBraces
 " }
 
+" delimitMate {
+  " for python docstring ", 特别有用
+  au FileType python let b:delimitMate_nesting_quotes = ['"']
+  " 关闭某些类型文件的自动补全
+  "au FileType mail let b:delimitMate_autoclose = 0
+" }
+
+" fcitx {
+  " 消除退出插入模式的延迟
+  set timeoutlen=1000 ttimeoutlen=0
+" }
+
+" EasyGrep {
+  "<Leader>vv  # 搜索光标所在单词，并匹配出所有结果，类似 gstar
+  "<Leader>vV  # 搜索光标所在单词，全词匹配，类似 star
+  "<Leader>va  # 类似 vv，但是会把结果添加到之前的搜索列表
+  "<Leader>vA  # 类似 vV，但是会把结果添加到之前的搜索列表
+  "<Leader>vr  # 全局搜索光标所在单词，并替换想要的单词
+
+  ":Grep [arg]             # 类似 <Leader>vv，使用 ! 类似<Leader>vV
+  ":GrepAdd [arg]          # 类似 <Leader>va，使用 ! 类似<Leader>vA
+  ":Replace [target] [replacement] # 类似 <Leader>vr
+  ":ReplaceUndo            # 撤销替换操作
+  ":GrepOptions            # 选项
+" }
+
+" jedi-vim {
+  "关闭YouCompleteMe
+  "au FileType python let g:ycm_auto_trigger=0
+
+  let g:jedi#popup_select_first = 0
+
+  let g:jedi#goto_command = "<leader>d"
+  let g:jedi#goto_assignments_command = "<leader>g"
+  let g:jedi#goto_definitions_command = ""
+  let g:jedi#documentation_command = "K"
+  let g:jedi#usages_command = "<leader>n"
+  let g:jedi#completions_command = "<F9>"
+  let g:jedi#rename_command = "<leader>r"
+
+
+  " 关闭，但是保留其他功能
+  "let g:jedi#completions_enabled = 0
+"}
+
+" setbreakpoints_python {
+	let g:setbreakpoints_pdb = 0
+" }
+
+
 " ************** 自定义vim插件 *******************
 " 有道翻译 {
     "vnoremap <silent> <C-T> :<C-u>Ydv<CR>
     "nnoremap <silent> <C-T> :<C-u>Ydc<CR>
-    noremap <leader>yd :<C-u>Yde<CR>
+    noremap <leader>fy :<C-u>Yde<CR>
 " }
 " wudao 光标支持 {
 " https://github.com/qiebzps/vim_wudao-dict
@@ -615,10 +690,11 @@ let mapleader="'"
   func! CompileRunGcc()
       exec "w"
       if &filetype == 'c'
-          exec "!g++ % -o %<"
+          " 32bit 编译， 无保护
+          exec "!g++ -g -ggdb -O0 -fno-stack-protector -z execstack % -o %<"
           exec "!time ./%<"
       elseif &filetype == 'cpp'
-          exec "!g++ % -o %<"
+          exec "!g++ -g -ggdb -O0 -fno-stack-protector -z execstack % -o %<"
           exec "!time ./%<"
       elseif &filetype == 'java'
           exec "!javac %"
@@ -626,7 +702,7 @@ let mapleader="'"
       elseif &filetype == 'sh'
           :!time bash %
       elseif &filetype == 'python'
-          exec "!python2.7 %"
+          exec "!python3 %"
       elseif &filetype == 'ruby'
           exec "!time ruby %"
       elseif &filetype == 'html'

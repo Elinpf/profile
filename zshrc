@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$PATH:/usr/games:/$HOME/lib/ctf/tools
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.antigen/bundles/robbyrussell/oh-my-zsh
@@ -133,7 +134,7 @@ antigen bundle wting/autojump
 antigen apply
 
 # 将自动补全设置为','
-bindkey ',' autosuggest-accept
+#bindkey ',' autosuggest-accept
 
 alias ls='ls --color=auto'
 alias ll="ls -l --color=auto"
@@ -145,11 +146,11 @@ alias clock='date'
 alias diff='grc diff'
 
 # 打开bluetooth
-alias blue='service bluetooth restart'
+#alias blue='service bluetooth restart'
 
 # 蓝牙连接console口失败参考
 # https://www.raspberrypi.org/forums/viewtopic.php?t=162911
-alias console_conn='service bluetooth restart && sleep 2 && rfcomm connect hci0 98:D3:31:B2:08:F0'
+alias blue='service bluetooth restart && sleep 2 && rfcomm connect hci0 98:D3:31:B2:08:F0'
 
 # 刻意练习-英语
 alias dp='/root/lib/deiliberate_practice/english/word.rb'
@@ -158,8 +159,19 @@ alias lex='/root/lib/deiliberate_practice/english/lex.rb'
 # Aio
 alias aio='/root/lib/aio/aio_setup.rb'
 
+# 连接vps
+alias vps='ssh 144.34.215.26 -p 26015'
+
+# 显示公网IP
+export GIP=144.34.215.26
+export AMZ=18.189.31.233
+
 # Shadowsock 科学上网
 alias surfing='nohup sslocal -c ~/.shandowsocks_sslocl_config.json >/dev/null 2>&1 &'
+alias surfing_amazon='nohup sslocal -c ~/.shandowsocks_amazon.json >/dev/null 2>&1 &'
+
+# 内网穿透
+alias frp='/root/lib/github_object/frp/frp_0.29.0_linux_amd64/frpc -c /root/lib/github_object/frp/frp_0.29.0_linux_amd64/frpc.ini'
 
 # 自己的回收站
 alias rm='sh /etc/trash.sh trash'
@@ -171,8 +183,17 @@ alias ru='sh /etc/trash.sh undelfile'
 alias rd='sh /etc/trash.sh delfile'
 alias cleartrash='sh /etc/trash.sh cleartrash'
 alias cleartrash_direct='sh /etc/trash.sh cleartrash_direct'
+
+# 自定义的工具启动
 alias msfconsole='msfdb init && msfconsole'
-alias py='python'
+alias py='python3'
+alias gdb='gdb -q'
+alias hexeditor='hexeditor -n'
+
+# Games
+alias sl='sl -e' # 小火车
+alias oneko='nohup oneko -speed 10 -idle 500 -sakura  >/dev/null 2>&1 &' # 宠物猫咪
+
 
 # 替代top工具
 alias top='glances'
@@ -191,3 +212,21 @@ unset LC_ALL
 # pipenv 自动补全
 eval "$(pipenv --completion)"
 
+fzfp() {
+fzf --preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (rougify {}  || highlight -O ansi -l {} || coderay {} || cat {}) 2> /dev/null | head -500'
+}
+alias ff=fzfp # find file
+
+# install JAVA JDK
+export JAVA_HOME=/opt/jdk1.8.0_201
+export CLASSPATH=.:${JAVA_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+
+# sqlmap 的GUI
+alias sqm='cd /usr/share/sqlmap;nohup python ./sqm.pyw >/dev/null 2>&1 &'
+
+# navi 命令
+export NAVI_PATH='/root/lib/github_object/navi/cheats:/root/.navi/cheats'
+alias navi='navi query'
+alias navis='navi search'
+alias navip='navi --print query'

@@ -118,6 +118,20 @@ runtime! debian.vim
   " Python 自动补全
   Plugin 'davidhalter/jedi-vim'
 
+  " 有Git功能的导航
+  Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+  " 颜色
+  Plugin 'connorholyday/vim-snazzy'
+
+  " markbook
+  Plugin 'kshenoy/vim-signature'
+
+  " Git 显示修改处
+  Plugin 'mhinz/vim-signify'
+
+  " Git 的VIM浏览
+  Plugin 'junegunn/gv.vim'
 
   " 你的所有插件需要在下面这行之前
   call vundle#end()            " 必须
@@ -147,7 +161,8 @@ endif
 " *************** 全局设置 *****************
 
 " 颜色方案
-colorscheme ron
+"colorscheme ron
+colorscheme snazzy
  
 " 定义快捷键的前缀，即<Leader>
 let mapleader="'"
@@ -216,7 +231,7 @@ let mapleader="'"
     set nosmartindent
     set autoindent
     set nocindent
-    "set cursorline              " 突出显示当前行
+    set cursorline              " 突出显示当前行
     set noeb   " 去掉输入错误的提示声音
     set ignorecase    " 搜索忽略大小写
     "set hlsearch "搜索逐字符高亮
@@ -285,8 +300,10 @@ let mapleader="'"
     " 删除文件时自动删除文件对应 buffer
     let NERDTreeAutoDeleteBuffer=1
     " 当vim启动时没有文件时自动启动
-    "autocmd StdinReadPre * let s:std_in=1
-    "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+    "当NERDTree为剩下的唯一窗口时自动关闭
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " }
 
 " 需要注意的是使用的时候第一个要是文件,而不是目录
@@ -329,6 +346,7 @@ let mapleader="'"
     "let airline#extensions#syntastic#error_symbol = 'E:'
     "let airline#extensions#syntastic#stl_format_err = '%E{[%e(#%fe)]}'
     "let airline#extensions#syntastic#stl_format_warn = '%W{[%w(#%fw)]}'
+    let g:syntastic_python_python_exec = 'python3'
 
     set t_Co=256
     " 代替方案
@@ -574,6 +592,8 @@ let mapleader="'"
   let g:jedi#completions_command = "<F9>"
   let g:jedi#rename_command = "<leader>r"
 
+  " 关闭自动选择第一个
+  let g:jedi#popup_select_first = 0
 
   " 关闭，但是保留其他功能
   "let g:jedi#completions_enabled = 0
@@ -583,6 +603,52 @@ let mapleader="'"
 	let g:setbreakpoints_pdb = 0
 " }
 
+" NerdTree-git {
+    let g:NERDTreeIndicatorMapCustom = { 
+        \ "Modified"  : "✹",
+        \ "Staged"    : "✚",
+        \ "Untracked" : "✭",
+        \ "Renamed"   : "➜",
+        \ "Unmerged"  : "═",
+        \ "Deleted"   : "✖",
+        \ "Dirty"     : "✗",
+        \ "Clean"     : "✔︎",
+        \ "Unknown"   : "?"
+    \ }
+" }
+
+
+" vim-signature
+    let g:SignatureMap = {
+            \ 'Leader'             :  "m",
+            \ 'PlaceNextMark'      :  "m,",
+            \ 'ToggleMarkAtLine'   :  "m.",
+            \ 'PurgeMarksAtLine'   :  "dm-",
+            \ 'DeleteMark'         :  "dm",
+            \ 'PurgeMarks'         :  "dm/",
+            \ 'PurgeMarkers'       :  "dm?",
+            \ 'GotoNextLineAlpha'  :  "m<LEADER>",
+            \ 'GotoPrevLineAlpha'  :  "",
+            \ 'GotoNextSpotAlpha'  :  "m<LEADER>",
+            \ 'GotoPrevSpotAlpha'  :  "",
+            \ 'GotoNextLineByPos'  :  "",
+            \ 'GotoPrevLineByPos'  :  "",
+            \ 'GotoNextSpotByPos'  :  "mn",
+            \ 'GotoPrevSpotByPos'  :  "mm",
+            \ 'GotoNextMarker'     :  "",
+            \ 'GotoPrevMarker'     :  "",
+            \ 'GotoNextMarkerAny'  :  "",
+            \ 'GotoPrevMarkerAny'  :  "",
+            \ 'ListLocalMarks'     :  "m/",
+            \ 'ListLocalMarkers'   :  ""
+    \ }
+    nmap m? :SignatureListGlobalMarks<cr>
+" }
+
+" GV {
+" :GV 所有的commit历史
+" :GV? 本文件的commit历史
+" }
 
 " ************** 自定义vim插件 *******************
 " 有道翻译 {

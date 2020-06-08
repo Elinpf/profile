@@ -150,7 +150,7 @@ alias diff='grc diff'
 
 # 蓝牙连接console口失败参考
 # https://www.raspberrypi.org/forums/viewtopic.php?t=162911
-alias blue='service bluetooth restart && sleep 2 && rfcomm connect hci0 98:D3:31:B2:08:F0'
+alias blue='service bluetooth restart && sleep 2 && rfcomm connect hci0 98:D3:31:B2:08:F0 &'
 
 # 刻意练习-英语
 alias dp='/root/lib/deiliberate_practice/english/word.rb'
@@ -160,7 +160,7 @@ alias lex='/root/lib/deiliberate_practice/english/lex.rb'
 alias aio='/root/lib/aio/aio_setup.rb'
 
 # 连接vps
-alias vps='ssh 144.34.215.26 -p 26015'
+alias vps='ssh 65.49.135.166 -p 26015'
 
 # 显示公网IP
 export GIP=144.34.215.26
@@ -187,6 +187,7 @@ alias cleartrash_direct='sh /etc/trash.sh cleartrash_direct'
 # 自定义的工具启动
 alias msfconsole='msfdb init && msfconsole'
 alias py='python3'
+alias ipy='ipython3'
 alias gdb='gdb -q'
 alias hexeditor='hexeditor -n'
 
@@ -196,7 +197,7 @@ alias oneko='nohup oneko -speed 10 -idle 500 -sakura  >/dev/null 2>&1 &' # 宠�
 
 
 # 替代top工具
-alias top='glances'
+alias top='htop'
 
 # 关闭vim Ctrl+q 挂起功能
 stty -ixon

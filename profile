@@ -25,9 +25,7 @@ if [ -f $HOME/.shandowsocks_sslocl_config.json ]; then
 fi
 
 # 开启蓝牙
-if ! [ systemctl is-active bluetooth.service]; then
-  systemctl start bluetooth.service
-fi
+systemctl start bluetooth.service
 
 # Games 小猫咪
 #if [ -f /usr/games/oneko ]; then

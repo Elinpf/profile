@@ -151,7 +151,7 @@ alias diff='grc diff'
 # 蓝牙连接console口失败参考
 # https://www.raspberrypi.org/forums/viewtopic.php?t=162911
 #alias blue='service bluetooth restart && sleep 2 && rfcomm connect hci0 98:D3:31:B2:08:F0 &'
-alias blue='nohup rfcomm connect hci0 98:D3:31:B2:08:F0 &'
+alias blue='rfcomm connect hci0 98:D3:31:B2:08:F0 &'
 
 # 刻意练习-英语
 alias dp='/root/lib/deiliberate_practice/english/word.rb'

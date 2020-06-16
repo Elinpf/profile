@@ -24,6 +24,11 @@ if [ -f $HOME/.shandowsocks_sslocl_config.json ]; then
   nohup sslocal -c $HOME/.shandowsocks_sslocl_config.json >/dev/null 2>&1 &
 fi
 
+# 开启蓝牙
+if ! [ systemctl is-active bluetooth.service]; then
+  systemctl start bluetooth.service
+fi
+
 # Games 小猫咪
 #if [ -f /usr/games/oneko ]; then
   #nohup /usr/games/oneko -speed 10 -idle 500 -sakura >/dev/null 2>&1 &
